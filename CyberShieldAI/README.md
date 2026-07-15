@@ -213,11 +213,4 @@ scraper/instagram_cookies.pkl
 
 Instagram changes its HTML often, so selectors may need small adjustments over time. This project is designed for ethical demonstrations and evidence assistance only. It does not automatically submit complaints, reports, messages, or any action on Instagram.
 
-## College Project Talking Points
 
-- Deep Learning architecture uses a Bidirectional LSTM for sequence context
-- NLP preprocessing includes lowercasing, URL removal, emoji removal, punctuation removal, number removal, stopword removal, and whitespace cleanup
-- Real-time monitoring uses a background thread and 5-second polling
-- In-memory live storage keeps the project simple and database-free
-- Explanations combine model output with keyword-level explainability
-- Selenium avoids paid or official Instagram APIs while keeping user control over login and reporting
