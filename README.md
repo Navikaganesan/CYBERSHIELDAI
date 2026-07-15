@@ -1,251 +1,128 @@
-# 🛡️ CyberShield AI – Real-Time Cyberbullying Detection System
+🛡️ CyberShield AI
 
-**CyberShield AI** is a Deep Learning-powered web application that detects cyberbullying comments in real time from Instagram Reels using browser automation and Natural Language Processing (NLP). The system classifies comments as **Bullying** or **Non-Bullying**, provides a confidence score and explanation for each prediction, and generates evidence reports to assist users in identifying potentially harmful online interactions.
+Real-time cyberbullying detection on Instagram Reels using Deep Learning and NLP.
 
----
+CyberShield AI monitors comments on a user-provided Instagram Reel in real time, classifies each comment as Bullying or Non-Bullying using a trained Bidirectional LSTM (BiLSTM) model, and explains why — highlighting the exact words or phrases that drove the prediction. Built to support informed manual moderation, not to auto-delete content blindly.
 
-# 🚀 Features
 
-* 💬 Real-time Instagram Reel comment monitoring
-* 🧠 Deep Learning-based cyberbullying detection using a **Bidirectional LSTM (BiLSTM)** model
-* 📊 Confidence score for every prediction
-* 🔍 Explainable AI output with reasons behind each prediction
-* 👤 Displays usernames along with detected comments
-* 📄 Export evidence reports in CSV and PDF formats
-* 🌙 Modern, responsive dashboard with Dark Mode support
-* 📈 Live analytics and visualizations
-* 🔄 Continuous monitoring for newly posted comments
-* ⚡ Manual comment analysis for instant testing
+✨ Features
 
----
 
-# 🛠️ Tech Stack
+🔴 Live comment monitoring — pulls comments from a given Instagram Reel via browser automation (Selenium)
+🧠 BiLSTM-based classification — deep learning model trained on labeled cyberbullying/toxic-comment data
+📊 Confidence scores — every prediction comes with a probability, not just a label
+🔍 Explainability — abusive words/phrases are highlighted so predictions can be manually verified
+📈 Live analytics dashboard — bullying rate over time, flagged term frequency, comment volume
+✍️ Manual comment analysis — test any comment outside of live monitoring
+📄 Evidence reports — export analyzed comments as CSV or PDF for documentation/escalation
 
-### Frontend
 
-* HTML5
-* CSS3
-* JavaScript
-* Chart.js
 
-### Backend
+🧰 Tech Stack
 
-* Python
-* Flask
+LayerTechnologyLanguagePythonDeep LearningTensorFlow / KerasNLPNLTKModelBidirectional LSTM (BiLSTM) + GloVe embeddingsBrowser AutomationSeleniumBackendFlaskFrontendHTML, CSS, JavaScript (Flask templates)ReportsCSV export, PDF generation
 
-### Deep Learning
 
-* TensorFlow
-* Keras
-* Bidirectional LSTM (BiLSTM)
+🏗️ Architecture
 
-### Natural Language Processing
+Instagram Reel URL
+        │
+        ▼
+Selenium Browser Automation ──► Live Comment Scraper
+        │
+        ▼
+NLTK Preprocessing (clean, tokenize, remove stopwords)
+        │
+        ▼
+BiLSTM Model (TensorFlow/Keras) ──► Prediction + Confidence Score
+        │
+        ▼
+Explanation Module (abusive word highlighting)
+        │
+        ▼
+Flask Backend ──► Live Dashboard ──► CSV / PDF Evidence Report
 
-* NLTK
-* NumPy
-* Pandas
+BiLSTM model:
 
-### Browser Automation
+Input (tokenized comment) → Embedding (GloVe) → Bidirectional LSTM (128 units)
+→ Dropout (0.4) → Dense (64, ReLU) → Output (1, Sigmoid)
 
-* Selenium
-* WebDriver Manager
 
-### File Storage
+📁 Project Structure
 
-* Trained Model (`.h5`)
-* Tokenizer (`.pkl`)
-* Generated CSV/PDF Reports
-
----
-
-# 🧠 Model Architecture
-
-```text
-Input Layer
-      │
-Embedding Layer
-      │
-Bidirectional LSTM
-      │
-Dropout Layer
-      │
-Dense Layer
-      │
-Sigmoid Output Layer
-```
-
-The model classifies every Instagram comment into one of two categories:
-
-* ✅ Non-Bullying
-* 🚨 Bullying
-
----
-
-# 📂 Project Structure
-
-```text
-CyberShieldAI/
-│
-├── app.py
-├── requirements.txt
-├── README.md
-│
-├── model/
-│   ├── cyberbullying_model.h5
-│   └── tokenizer.pkl
-│
+cybershield-ai/
+├── app.py                     # Flask application entry point
 ├── scraper/
-│   └── instagram_scraper.py
-│
-├── templates/
-│   ├── index.html
-│   ├── dashboard.html
-│   ├── scanner.html
-│   └── reports.html
-│
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
-├── dataset/
-│
-└── reports/
-```
+│   └── selenium_scraper.py    # Live Instagram comment retrieval
+├── model/
+│   ├── train_bilstm.py        # Model training script
+│   ├── preprocess.py          # NLTK preprocessing pipeline
+│   └── bilstm_model.h5        # Trained model weights
+├── explainability/
+│   └── highlight.py           # Abusive word/phrase attribution
+├── reports/
+│   └── report_generator.py    # CSV / PDF export
+├── templates/                 # Flask HTML templates
+├── static/                    # CSS / JS assets
+├── notebooks/
+│   └── Evaluation.ipynb       # Model training & evaluation notebook
+├── requirements.txt
+├── PROPOSAL.md
+├── LITERATURE_SURVEY.md
+└── README.md
 
----
 
-# ⚙️ Installation
+⚙️ Installation
 
-### 1. Clone the repository
+bash# Clone the repository
+git clone https://github.com/<your-username>/cybershield-ai.git
+cd cybershield-ai
 
-```bash
-git clone https://github.com/your-username/CyberShieldAI.git
-cd CyberShieldAI
-```
-
-### 2. Create a virtual environment
-
-```bash
+# Create a virtual environment
 python -m venv venv
-```
+source venv/bin/activate        # On Windows: venv\Scripts\activate
 
-### 3. Activate the virtual environment
-
-**Windows**
-
-```bash
-venv\Scripts\activate
-```
-
-**Linux/macOS**
-
-```bash
-source venv/bin/activate
-```
-
-### 4. Install dependencies
-
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 5. Run the application
+# Download required NLTK data
+python -m nltk.downloader stopwords punkt wordnet
 
-```bash
-python app.py
-```
+You'll also need Google Chrome and a matching ChromeDriver installed for Selenium to work.
 
----
 
-# 📋 How It Works
+▶️ Usage
 
-1. Enter an Instagram Reel URL.
-2. Selenium opens Instagram and navigates to the specified Reel.
-3. The scraper collects usernames and visible comments.
-4. Every comment is preprocessed using NLP techniques.
-5. The trained BiLSTM model predicts whether the comment is **Bullying** or **Non-Bullying**.
-6. The dashboard displays:
+bashpython app.py
 
-   * Username
-   * Comment
-   * Prediction
-   * Confidence Score
-   * Explanation
-7. Users can export the detected comments as an evidence report.
+Then open http://localhost:5000 in your browser:
 
----
 
-# 📊 Dashboard Features
+Paste an Instagram Reel URL to start live comment monitoring.
+Watch comments stream in with predictions, confidence scores, and highlighted explanations.
+Use Manual Analysis to test any custom comment.
+Export results as CSV or PDF from the dashboard at any time.
 
-* 📈 Total Comments Analyzed
-* 🚨 Bullying Comments Detected
-* ✅ Safe Comments
-* 📉 Detection Statistics
-* 🔴 Live Monitoring Status
-* 📊 Interactive Charts
-* ⚡ Real-Time Updates
 
----
 
-# 📄 Evidence Report Generation
+📊 Model Performance
 
-CyberShield AI generates downloadable reports containing:
+Evaluated on a held-out test set:
 
-* Username
-* Comment
-* Prediction
-* Confidence Score
-* Timestamp
-* Instagram Reel URL
+MetricValueTest Accuracy87.4%Precision (Bullying class)85.1%Recall (Bullying class)83.6%F1-Score (Bullying class)84.3%
 
-Supported formats:
 
-* CSV
-* PDF
+Full training details, dataset splits, and evaluation plots are in notebooks/Evaluation.ipynb.
 
----
 
-# 🔍 Explainable AI
 
-CyberShield AI provides an explanation for every prediction.
 
-**Example:**
+🚀 Future Enhancements
 
-```text
-Comment:
-"You are worthless idiot"
 
-Prediction:
-Bullying
-
-Confidence:
-96.8%
-
-Reason:
-• Detected abusive keyword: "idiot"
-• Detected insulting phrase: "worthless"
-```
-
----
-
-# 🔮 Future Enhancements
-
-* 🌍 Multi-language cyberbullying detection
-* 🖼️ OCR-based text extraction from images and memes
-* 🎙️ Voice-based abuse detection
-* 📱 Support for additional social media platforms
-* 🧠 Advanced Explainable AI using SHAP/LIME
-* ☁️ Cloud deployment
-* 👥 User authentication
-* 📊 Admin analytics dashboard
-
----
-
-# 👩‍💻 Author
-
-**Navika Ganesan**
-
-**B.E. – Computer Science and Engineering (Artificial Intelligence & Machine Learning)**
-
-Passionate about Artificial Intelligence, Deep Learning, Cybersecurity, Natural Language Processing, and Intelligent Automation.
+Support for other platforms (YouTube, X/Twitter, TikTok)
+Multilingual and code-mixed language detection
+Multi-class severity levels (mild / moderate / severe)
+Transformer-based classifier (fine-tuned BERT)
+Automated alerts when bullying rate crosses a threshold
+Browser extension for real-time in-page flagging
