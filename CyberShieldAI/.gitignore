@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+model/cyberbullying_model.h5
+model/tokenizer.pkl
+scraper/instagram_cookies.pkl
+reports/*.csv
+reports/*.pdf

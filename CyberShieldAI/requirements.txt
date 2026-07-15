@@ -1,0 +1,12 @@
+Flask>=3.0,<4
+torch>=2.0,<3
+transformers>=4.0,<5
+detoxify>=0.5,<1
+nltk>=3.8,<4
+numpy>=1.26,<3
+pandas>=2.2,<3
+scikit-learn>=1.5,<2
+selenium>=4.23,<5
+webdriver-manager>=4.0,<5
+reportlab>=4.2,<5
+kagglehub>=0.3,<1
